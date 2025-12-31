@@ -1,0 +1,7 @@
+pandas
+requests
+re
+nltk
+google-play-scraper
+deep-translator
+matplotlib

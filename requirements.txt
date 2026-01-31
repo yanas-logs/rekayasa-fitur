@@ -1,8 +1,9 @@
 streamlit
 pandas
 requests
-re
-nltk
-google-play-scraper
-deep-translator
 matplotlib
+nltk
+deep-translator
+google-play-scraper
+python-dotenv
+youtube-comment-downloader

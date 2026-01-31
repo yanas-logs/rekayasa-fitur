@@ -1,5 +1,7 @@
 # Sentiment Analysis Lanjutan
 
+## Preview
+![Dashboard Analisis Sentimen][assets/image-1.png]
 
 ```bash
 git clone https://github.com/username/rekayasa-fitur.git

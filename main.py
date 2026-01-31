@@ -6,12 +6,15 @@ from src.utils import apply_custom_css
 from src.test import fetch_playstore, fetch_youtube_api, fetch_youtube_no_api
 from src.processor import get_sentiment
 
+st.set_page_config(
+    page_title="Dashboard",
+    page_icon="https://cdn-icons-png.flaticon.com/128/11264/11264792.png",
+    layout="wide"
+)
 
 st.markdown("<h1 style='text-align: center;'> Dashboard Analisis Sentimen Lanjutan</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: gray;'>Analisis Sentimen Lanjutan secara real-time dari berbagai platform digital</p>", unsafe_allow_html=True)
 st.divider()
-
-
 APPS_LIST = load_apps_dataset()
 
 st.sidebar.header("Pengaturan Sumber Data")
@@ -47,7 +50,7 @@ if st.sidebar.button("Mulai Analisis"):
         else:
             df = fetch_youtube_no_api(target_input)
         
-        if not df.empty:
+        if df is not None and not df.empty:
             st.write("Data berhasil diambil. Memulai proses...")
             sentiments = []
             for i, row in df.iterrows():
@@ -56,17 +59,16 @@ if st.sidebar.button("Mulai Analisis"):
             status.update(label="Analisis Selesai!", state="complete", expanded=False)
         else:
             status.update(label="Gagal mengambil data.", state="error")
+            st.error("Data tidak ditemukan atau limit tercapai. Silakan coba lagi nanti.")
             st.stop()
 
     st.divider()
-    
-
     col1, col2 = st.columns([1, 1])
     with col1:
         st.subheader("Visualisasi Sentimen")
         counts = df['Sentiment'].value_counts().reindex(['Negative', 'Neutral', 'Positive'], fill_value=0)
         fig, ax = plt.subplots(figsize=(8, 4))
-        colors = ['#ff4b4b', '#f0f2f6', '#00c853']
+        colors = ['#ff4b4b', '#afb8c1', '#00c853']
         counts.plot(kind='bar', color=colors, ax=ax)
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
@@ -79,8 +81,24 @@ if st.sidebar.button("Mulai Analisis"):
         st.metric("Total Komentar/Review", len(df))
         st.write(counts)
         csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button("Download Hasil Analisis (CSV)", csv, "sentiment.csv", "text/csv")
+        st.download_button("Download Hasil Analisis (CSV)", csv, "sentiment.csv", "text/csv", use_container_width=True)
 
     st.divider()
     st.subheader("Data Preview")
-    st.dataframe(df, width=1500)
+    st.dataframe(df, use_container_width=True)
+
+    st.divider()
+st.markdown(
+    """
+    <div style='text-align: center; color: gray; font-size: 14px;'>
+        <hr style='border: none; border-top: 1px solid #eee; margin-bottom: 20px;'>
+        <p>
+            © 2026 | Dashboard Analisis Sentimen | 
+            Built with <img src="https://streamlit.io/images/brand/streamlit-mark-color.png" width="20"> 
+            | <a href="https://github.com/yanas-logs" target="_blank" style="color: #4b8bbe; text-decoration: none;">yanas-logs</a>
+        </p>
+        
+    </div>
+    """, 
+    unsafe_allow_html=True
+)

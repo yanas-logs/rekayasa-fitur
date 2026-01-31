@@ -1,7 +1,7 @@
 # Sentiment Analysis Lanjutan
 
 ## Preview
-HEAD
+
 ![Dashboard Analisis Sentimen](assets/image-1.png)
 
 ```bash

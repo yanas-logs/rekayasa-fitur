@@ -45,5 +45,6 @@ def fetch_playstore(app_id, limit=50):
         if result:
             df = pd.DataFrame(result)
             return df[['userName', 'content']].rename(columns={'userName': 'Author', 'content': 'Content'})
-    except:
-        return pd.DataFrame()
+    except Exception as e:
+        print(f"Error detail: {e}")
+    return pd.DataFrame(columns=['Author', 'Content'])
